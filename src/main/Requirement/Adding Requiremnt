@@ -1,0 +1,98 @@
+https://github.com/championswimmer/system-design-product-architecture/tree/main/01-event-ticketing-system
+
+Entities:
+
+Events
+- id
+- name
+- date/time
+- seats_left
+
+Users
+- id
+- email
+
+Seats
+- event_id
+- seat_number
+- status: (empty/blocked/booked)
+- ttl
+
+Tickets
+- event_id
+- seat_number
+- user_id
+
+
+
+
+APIs
+
+GET /events/?name={}&from=&to=
+<- event[]
+
+GET /events/{id}/seats
+<- seat[]
+
+POST /tickets
+🔒 {auth token, booking token}
+-> {event, seat}
+
+
+
+
+
+
+Approach
+
+Implement services:
+
+EventService: Create and manage events
+SearchService: Search for events using Elasticsearch
+TicketingService: Handle seat availability and booking
+PaymentService: Integrate with payment gateway
+QueueService: Manage virtual queue
+
+
+Create RESTful APIs:
+
+EventController: Endpoints for creating and retrieving events
+SearchController: Endpoint for searching events
+TicketController: Endpoints for checking seat availability and booking tickets
+
+
+Set up databases:
+
+Configure PostgreSQL for storing events, seats, and tickets
+Set up Redis for caching and storing event metadata
+Configure Elasticsearch for efficient event searching
+
+
+Implement business logic:
+
+Event creation and management
+Seat availability tracking
+Ticket booking process with concurrency handling
+Virtual queue management
+Integration with payment gateway
+
+
+Add security:
+
+Implement user authentication and authorization
+
+
+Handle concurrent booking:
+
+Use optimistic locking or distributed locking to prevent overbooking
+
+
+Implement asynchronous processing:
+
+Use message queues for handling high-load operations
+
+
+Testing:
+
+Write unit tests for services
+Create integration tests for APIs
